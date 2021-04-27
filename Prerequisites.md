@@ -13,4 +13,7 @@
    - [Mac OS](https://m5stack.oss-cn-shenzhen.aliyuncs.com/resource/software/M5Burner_MacOS.zip)
    - [Linux](https://m5stack.oss-cn-shenzhen.aliyuncs.com/resource/software/M5Burner_Linux.zip)
 
-4. 安装最新版本的[Azure IoT Explorer](https://github.com/azure/azure-iot-explorer/releases)工具
+4. 安装对应操作系统的Azure IoT Explorer工具
+   - [Windows](https://static-cdn.m5stack.com/resource/software/Azure/Azure.IoT.Explorer.preview.0.14.1.msi)
+   - [Mac OS](https://static-cdn.m5stack.com/resource/software/Azure/Azure.IoT.Explorer.preview.-0.14.1.dmg)
+   - [Linux](https://static-cdn.m5stack.com/resource/software/Azure/azure-iot-explorer_0.14.1_amd64.deb)
