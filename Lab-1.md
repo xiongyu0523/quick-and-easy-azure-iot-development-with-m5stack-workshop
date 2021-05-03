@@ -32,7 +32,13 @@ M5Stack UIFLOW图形化编程工具让物联网设备的原型开发变得无比
    
 4. 若连接成功，在UIFLOW右上角会产生**Connected**通知消息，并且在左下角**API KEY**图标上也会显示绿色的**connected**字样。
 
-## 实验1-1：采集并显示环境温湿度气压数据
+## 实验1-1：采集并显示传感器数据
+
+### 实验目的:
+
+读取ENV II中的温度、湿度和大气压力数值显示在Core2的TFT屏幕上。
+
+### 实验步骤：
 
 1. 连接ENV II unit传感器到Core2上的PORTA（左侧没有丝印的端口)。
 
@@ -54,11 +60,17 @@ M5Stack UIFLOW图形化编程工具让物联网设备的原型开发变得无比
 
 ## 实验1-2：连接到Azure IoT Hub并使用D2C Message发送时序数据
 
+### 实验目的:
+
+每5秒读取一组新的传感器数据向IoT Hub发送，同时更新TFT屏幕上的数值。
+
+### 实验步骤：
+
 1. 打开Azure IoT Explorer，点击首页上之前创建的IoT Hub的链接进入Hub管理页面，继续选择之前创建的设备ID进入设备页面，在设备页面中复制**primary connection string**到剪切板。
 
     ![](images/cs.png)
 
-2. 在UIFLOW中拖出 **IoTCloud->Azure->IoT Hub** 块并串接在**Setup**后，保持默认**SAS**认证模式不变，把上一步中复制的conection string到字符串粘贴到此。
+2. 在UIFLOW中 **IoTCloud->Azure->IoT Hub** 块，串接在**Setup**后。保持默认**SAS**认证模式不变，把上一步中复制的conection string到字符串粘贴到此。
 
 3. 拖出 **IoTCloud->Azure->Start azure** 块，串接上一步IoT Hub块，连接Azure。
 
@@ -77,19 +89,41 @@ M5Stack UIFLOW图形化编程工具让物联网设备的原型开发变得无比
     "Pressure" | pressure 
 
 
-7. 使用 **JSON->dumps to json** 块将map变量转换为json字符串后填入 **ioTCloud->Azure->D2C message**，串接上一步。
+7. 使用 **JSON->dumps to json** 块将map变量转换为json字符串后填入 **ioTCloud->Azure->Publish D2C message**块，串接上一步。
 
-8. 添加 **Timer->delay** 块，在Loop中实现5秒延迟和循环。
-
-9. 整个程序块
+8. 添加 **Timer->delay (n) s** 块串接上一步，在Loop中实现5秒延迟和循环。
 
     ![](images/1-2.png)
 
-10. 回到Azure IoT Explorer中，
+9.  点击右上角RUN图标下载程序到Core2运行。
 
-11. 挑战！利用Loop和Timer功能块实现一个每5秒更新环境温湿度气压的应用。
+10. 回到Azure IoT Explorer中，在设备管理界面左侧选择**telemetry**, 在新打开页面上点击**Start**开始从IoT Hub中读取数据。
 
 ## 实验1-3：使用C2D Message通道向设备发送指令
+
+### 实验目的:
+
+利用IoT Hub的C2D Message能力发送消息给设备产生本地报警信号
+
+### 实验步骤：
+
+1. 拖出 **IoTCloud->Azure->Subscribe C2d Message** 块放置在任意位置
+
+    > 注意该功能块属于事件类型，无需与其他块接在一起即可使用。当事件触发后，该块包含的功能才被调用。
+
+2. 放置 **Logic->if..do..** 块在内部并在 if 判断处衔接 **Logic->..=..** 块。左值使用c2dmsg变量，右值使用一个**Text**字符串赋值为"alarm"。
+
+3. 在if块内部，使用 **Hardwares->Vibration->Set vibration enable** 块和 **Timer->delay (n) s** 块实现震动2秒报警。
+
+    ![](images/1-3.png)
+
+4. 点击右上角RUN图标下载程序到Core2运行。
+
+5.  回到Azure IoT Explorer中，在设备管理界面左侧选择 **Cloud to Device message**, 在新打开页面中的Message body部分输入 **alarm**，点击上方 **Send message to device** 按钮发送。
+
+    ![](images/c2d.png)
+
+6.  观察设备震动报警情况。
 
 ## 实验1-4：使用Direct Method执行设备远程调用并返回结果
 
