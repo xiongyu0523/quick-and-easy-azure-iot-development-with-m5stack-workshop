@@ -114,7 +114,7 @@ M5Stack UIFLOW图形化编程工具让物联网设备的原型开发变得无比
 
 3. 在if块内部，使用两个 **Hardwares->Vibration->Set vibration enable** 块实现震动开(True)和关(False)，中间包夹 **Hardwars->Speaker->Play local WAV file null +** 块实现声音报警。
 
-4. 点击WAV块上的 + 图标，打开本地文件文件系统，找到克隆到本地的仓库根目录下的 **res** 文件夹，选中 **alarm.wav** ，通过UIFLOW上传该文件到Core2内部文件系统。等待10-20秒完成上传后，在WAV块下拉菜单中可以选中该文件。
+4. 点击WAV块上的 + 图标，打开本地文件文件系统，找到克隆到本地的仓库根目录下的 **res** 文件夹，选中 [alarm.wav](res/alarm.wav) ，通过UIFLOW上传该文件到Core2内部文件系统。等待10-20秒完成上传后，在WAV块下拉菜单中可以选中该文件。
 
     ![](images/1-3.png)
 
