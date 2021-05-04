@@ -2,6 +2,15 @@
 
 M5Stack UIFLOW图形化编程工具让物联网设备的原型开发变得无比的简单。目前已经了支持数百种的硬件扩展模块，包括主流的传感器、I/O执行机构和通讯模块。本动手实验带你探索UIFLOW中的的Azure IoT云连接功能，利用这些模块你可以在轻松创建一个设备到云的应用。
 
+## 目录
+- [准备1：创建Azure IoT Hub和设备身份](#准备1创建azure-iot-hub和设备身份)
+- [准备2：连接M5Stack Core2与UIFLOW](#准备2连接m5stack-core2与uiflow)
+- [实验1-1：采集并显示传感器数据](#实验1-1采集并显示传感器数据)
+- [实验1-2：连接到Azure IoT Hub并使用D2C Message发送时序数据](#实验1-2连接到azure-iot-hub并使用d2c-message发送时序数据)
+- [实验1-3：使用C2D Message通道向设备发送指令](#实验1-3使用c2d-message通道向设备发送指令)
+- [实验1-4：使用Direct Method执行设备远程调用并返回结果](#实验1-4使用direct-method执行设备远程调用并返回结果)
+- [实验1-5：使用Device Twin实现设备状态的同步](#实验1-5使用device-twin实现设备状态的同步)
+
 ## 准备1：创建Azure IoT Hub和设备身份
 
 1. 使用你的账号登陆 **portal.azure.com**，如果您使用的是Azure在中国境内的云，地址是 **portal.azure.cn**
@@ -114,7 +123,7 @@ M5Stack UIFLOW图形化编程工具让物联网设备的原型开发变得无比
 
 3. 在if块内部，使用两个 **Hardwares->Vibration->Set vibration enable** 块实现震动开(True)和关(False)，中间包夹 **Hardwars->Speaker->Play local WAV file null +** 块实现声音报警。
 
-4. 点击WAV块上的 + 图标，打开本地文件文件系统，找到克隆到本地的仓库根目录下的 **res** 文件夹，选中 [alarm.wav](res/alarm.wav) ，通过UIFLOW上传该文件到Core2内部文件系统。等待10-20秒完成上传后，在WAV块下拉菜单中可以选中该文件。
+4. 下载根目录下 **res** 文件夹中的 [alarm.wav](res/alarm.wav) 文件到本地文件系统，点击WAV块上的 + 图标添加该文件 ，通过UIFLOW上传到Core2内部文件系统。等待10-20秒完成上传后，在WAV块下拉菜单中可以选中该文件。
 
     ![](images/1-3.png)
 
