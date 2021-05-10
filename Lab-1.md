@@ -237,3 +237,9 @@ M5Stack UIFLOW图形化编程工具让物联网设备的原型开发变得无比
 11. 观察到设备的RGB LED灯变化，同时点击Azure IoT Explorer界面上的 **refresh** 按钮查看Device twin的中 **reported** 字段是否被同步。
 
     ![](images/twin-2.png)
+
+## 资料
+
+- [本实验参考代码](res/m5workshop-v0.1.m5f)
+- [Azure IoT 中文文档](https://docs.microsoft.com/zh-cn/azure/iot-hub/)
+- [M5Stack官网](https://m5stack.com/)
