@@ -20,7 +20,7 @@ Login to your Azure Portal, click `+ Create a resource`, enter `Storage account`
 
 Follow below settings to create a new storage account. Try to use the existing Resource Group and same region where you created the IoT Hub in Lab 1. 
 
-![](images/create_storage_account.png)
+![](images/Create_storage_account.png)
 
 Click `Review and create`.
 
@@ -28,7 +28,7 @@ Once the depoayment is complete, click `Go to resource`.
 
 On Storage account blade, click `Data storage` -> `Containers` -> `+ Container`. Enter a name for the New container, and then click `Create`.
 
-![](images/create_container.png)
+![](images/Create_container.png)
 
 Once created, you should see the container listed as below.
 
@@ -182,7 +182,7 @@ You may view the data in different line chart, Zoom in/out, view as a table, Con
 
 ![](images/Zoom_in_view.png)
 
-![](images/Show_as_Table.png)
+![](images/Show_as_table.png)
 
 ![](images/Explore_raw_events.png)
 
