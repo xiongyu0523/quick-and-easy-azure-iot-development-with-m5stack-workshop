@@ -8,9 +8,9 @@ M5Stack UIFLOW图形化编程工具让物联网设备的原型开发变得无比
 - [实验1-1：采集并显示传感器数据](#实验1-1采集并显示传感器数据)
 - [实验1-2：连接到Azure IoT Hub并使用D2C Message发送时序数据](#实验1-2连接到azure-iot-hub并使用d2c-message发送时序数据)
 - [实验1-3：使用D2C Message发送事件到IoT Hub](#实验1-3使用d2c-message发送事件到iot-hub)
-- [实验1-4：使用C2D Message通道向设备发送指令](#实验1-3使用c2d-message通道向设备发送指令)
-- [实验1-5：使用Direct Method执行设备远程调用并返回结果](#实验1-4使用direct-method执行设备远程调用并返回结果)
-- [实验1-6：使用Device Twin实现设备状态的同步](#实验1-5使用device-twin实现设备状态的同步)
+- [实验1-4：使用C2D Message通道向设备发送指令](#实验1-4使用c2d-message通道向设备发送指令)
+- [实验1-5：使用Direct Method执行设备远程调用并返回结果](#实验1-5使用direct-method执行设备远程调用并返回结果)
+- [实验1-6：使用Device Twin实现设备状态的同步](#实验1-6使用device-twin实现设备状态的同步)
 
 ## 准备1：创建Azure IoT Hub和设备身份
 
