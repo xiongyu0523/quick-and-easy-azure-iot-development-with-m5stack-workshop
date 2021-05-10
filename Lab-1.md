@@ -7,9 +7,10 @@ M5Stack UIFLOW图形化编程工具让物联网设备的原型开发变得无比
 - [准备2：连接M5Stack Core2与UIFLOW](#准备2连接m5stack-core2与uiflow)
 - [实验1-1：采集并显示传感器数据](#实验1-1采集并显示传感器数据)
 - [实验1-2：连接到Azure IoT Hub并使用D2C Message发送时序数据](#实验1-2连接到azure-iot-hub并使用d2c-message发送时序数据)
-- [实验1-3：使用C2D Message通道向设备发送指令](#实验1-3使用c2d-message通道向设备发送指令)
-- [实验1-4：使用Direct Method执行设备远程调用并返回结果](#实验1-4使用direct-method执行设备远程调用并返回结果)
-- [实验1-5：使用Device Twin实现设备状态的同步](#实验1-5使用device-twin实现设备状态的同步)
+- [实验1-3：使用D2C Message发送事件到IoT Hub](#实验1-3使用d2c-message发送事件到iot-hub)
+- [实验1-4：使用C2D Message通道向设备发送指令](#实验1-3使用c2d-message通道向设备发送指令)
+- [实验1-5：使用Direct Method执行设备远程调用并返回结果](#实验1-4使用direct-method执行设备远程调用并返回结果)
+- [实验1-6：使用Device Twin实现设备状态的同步](#实验1-5使用device-twin实现设备状态的同步)
 
 ## 准备1：创建Azure IoT Hub和设备身份
 
@@ -49,7 +50,7 @@ M5Stack UIFLOW图形化编程工具让物联网设备的原型开发变得无比
 
 ### 实验步骤：
 
-1. 连接ENV II unit传感器到Core2上的PORTA（左侧没有丝印的端口)。
+1. 连接ENV II unit传感器到Core2上的 **PORTA**（左侧没有丝印的端口)。
 
 2. 在UIFLOW左侧 **Units** 字样下方点击 + 图标，在弹出的窗口中选择 **ENV II** 和 **PORTA** 进行添加。
 
@@ -107,7 +108,52 @@ M5Stack UIFLOW图形化编程工具让物联网设备的原型开发变得无比
 
     ![](images/d2c.png)
 
-## 实验1-3：使用C2D Message通道向设备发送指令
+
+## 实验1-3：使用D2C Message发送事件到IoT Hub
+
+### 实验目的:
+
+每1秒检测PIR传感器事件并向IoT Hub发送。
+
+### 实验步骤：
+
+1. 连接PIR unit传感器到 Core2 底座上的 **PORTB**。
+
+2. 在UIFLOW左侧 **Units** 字样下方点击 + 图标，在弹出的窗口中选择 **PIR** 和 **PORTB** 进行添加。
+
+    ![](images/pir.png)
+
+3. 从UIFLOW最左侧控件栏上添加一个新的 **Label** 控件到虚拟屏幕上，单击打开属性面板，修改 **text** 为 **PIR**，完成后再添加1个Label控件到PIR标签的右侧，用于表示PIR的值（0 or 1)，记下他的 **name**。
+
+    ![](images/pirvalue.png)
+
+4. 拖动 **Event->timer callback (timer1)** 定时器块放置在任意位置，同时添加一个 **Event->Start (timer1) period (100) ms mode (Periodic)** 块在上一步的 **Azure Start** 块后、 **Loop** 块前的位置，修改定时器触发周期到 **1000** ms。
+
+5. 创建一个 **pir** 变量，在 **Setup** 后添加 **Variables->Set PIR to** 块赋初值为 **0**。
+   
+6. 添加一个 **Logic->If...do...** 块在timer1定时器事件中，在 **if** 判断处衔接 **Logic->..=..** 比较块，比较 **pir** 变量与 **Units->PIR->Get (pir0) status** 的值。当前两 **不等** 的时候执行If块中的逻辑。
+   
+   1. 通过 **Variables->Set PIR to** 块将 **Get (pir0) status** 的值赋值给 **pir** 变量。
+   
+   2. 添加 **UI->Label->Label...show...** 块将TFT屏幕上的界面中 **PIR** 值更新。
+
+   3. 使用 **map->create map** 块，增加1个键值对，用于表示PIR检测事件，使用 **JSON->dumps to json** 块将map直接转换为json字符串后填入  **IoTCloud->Azure->Publish D2C message** 块，串接上一步。
+
+        键 | 值
+        ------------ | -------------
+        "PIR new value" | pir (变量)
+
+    ![](images/1-3-1.png)
+
+    ![](images/1-3-2.png)
+
+7.  点击右上角 **RUN** 图标下载程序到Core2运行。
+
+8.  进入Azure IoT Explorer，在设备管理界面左侧选择 **telemetry**, 在新打开页面上点击 **Start** 开始从IoT Hub中读取数据，将PIR传感器远离移动物体，手动触发再观察PIR事件。
+
+    ![](images/pirlog.png)
+
+## 实验1-4：使用C2D Message通道向设备发送指令
 
 ### 实验目的:
 
@@ -125,7 +171,7 @@ M5Stack UIFLOW图形化编程工具让物联网设备的原型开发变得无比
 
 4. 下载根目录下 **res** 文件夹中的 [alarm.wav](res/alarm.wav) 文件到本地文件系统，点击WAV块上的 + 图标添加该文件 ，通过UIFLOW上传到Core2内部文件系统。等待10-20秒完成上传后，在WAV块下拉菜单中可以选中该文件。
 
-    ![](images/1-3.png)
+    ![](images/1-4.png)
 
 5. 点击右上角 **RUN** 图标下载程序到Core2运行。
 
@@ -135,7 +181,7 @@ M5Stack UIFLOW图形化编程工具让物联网设备的原型开发变得无比
 
 7.  观察设备报警情况。
 
-## 实验1-4：使用Direct Method执行设备远程调用并返回结果
+## 实验1-5：使用Direct Method执行设备远程调用并返回结果
 
 ### 实验目的:
 
@@ -149,7 +195,7 @@ M5Stack UIFLOW图形化编程工具让物联网设备的原型开发变得无比
 
 2. 添加 **Hardwares->Power->Get battery percentage** 块串接在 **direct method** 块的返回 **body** 后面。
 
-    ![](images/1-4.png)
+    ![](images/1-5.png)
 
 3. 点击右上角 **RUN** 图标下载程序到Core2运行。
 
@@ -161,7 +207,7 @@ M5Stack UIFLOW图形化编程工具让物联网设备的原型开发变得无比
 
     ![](images/dmresult.png)
 
-## 实验1-5：使用Device Twin实现设备状态的同步
+## 实验1-6：使用Device Twin实现设备状态的同步
 
 ### 实验目的:
 
@@ -213,7 +259,7 @@ M5Stack UIFLOW图形化编程工具让物联网设备的原型开发变得无比
    4. 如果键值等于 **ON**，表示服务端要求控制打开RGB LED，此时除了添加第3步中相同打开RGB LED灯和上报 **reported** 状态的块（也可以使用函数），再多增加一个 **UI->Switch->Set switch(n) ON** 同步界面上的控件显示效果。
    5. 如果键值等于 **OFF**，同理实现RGB LED关闭、上报和控件同步。
    
-    ![](images/1-5.png)
+    ![](images/1-6.png)
 
 9. 点击右上角 **RUN** 图标下载程序到Core2运行。
 
